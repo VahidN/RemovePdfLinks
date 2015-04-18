@@ -1,0 +1,71 @@
+﻿<Window x:Class="RemovePdfLinks.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="clr-namespace:RemovePdfLinks.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:utils="clr-namespace:RemovePdfLinks.Utils"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Title="Remove Pdf Links" Height="215" Width="525">
+    <Window.Resources>
+        <viewModels:MainWindowViewModel x:Key="MainWindowViewModel" />
+    </Window.Resources>
+    <Grid DataContext="{StaticResource MainWindowViewModel}">
+        <TabControl Margin="2">
+            <TabItem Header="PDF Processor">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Path">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Folder Path:" Margin="2" Grid.Column="0"/>
+                            <TextBox Margin="2" Grid.Column="1"
+                                     Text="{Binding GuiModelData.FolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Width="20" x:Name="BtnChooseFolder"
+                                    ToolTip="Select ..." Content="..."  Margin="2" Grid.Column="2">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <utils:FolderBrowserDialogBehavior
+                                            FolderBrowserDescription="Select a folder"
+                                            FolderBrowserDialogResultCommand="{Binding GuiModelData.FolderPath, Mode=TwoWay}"
+                                            />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Options" Grid.Row="1">
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton Content="Remove All Links"
+                                         IsChecked="{Binding GuiModelData.RemoveAllLinks, Mode=TwoWay}"
+                                         Margin="2" GroupName="G1"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Content="Replace All Links With Url:" Margin="2" GroupName="G1"/>
+                                <TextBox
+                                    Text="{Binding GuiModelData.NewUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    VerticalAlignment="Center" Grid.Column="1" />
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    <Button
+                        Command="{Binding DoStart}"
+                        Content="Start" Grid.Row="2"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
