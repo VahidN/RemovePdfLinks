@@ -1,22 +1,25 @@
 ﻿using System.ComponentModel;
+using System.IO;
+using System.Windows.Forms;
 
 namespace RemovePdfLinks.Models
 {
     public class GuiModel : INotifyPropertyChanged
     {
-        private string _folderPath;
+        private string _inputFolderPath;
         private string _newUrl = "http://www.site.com";
+        private string _outputFolderPath = Path.Combine(Application.StartupPath, "Mod");
         private bool _removeAllLinks = true;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string FolderPath
+        public string InputFolderPath
         {
-            get { return _folderPath; }
+            get { return _inputFolderPath; }
             set
             {
-                _folderPath = value;
-                notifyPropertyChanged("FolderPath");
+                _inputFolderPath = value;
+                notifyPropertyChanged("InputFolderPath");
             }
         }
 
@@ -27,6 +30,16 @@ namespace RemovePdfLinks.Models
             {
                 _newUrl = value;
                 notifyPropertyChanged("NewUrl");
+            }
+        }
+
+        public string OutputFolderPath
+        {
+            get { return _outputFolderPath; }
+            set
+            {
+                _outputFolderPath = value;
+                notifyPropertyChanged("OutputFolderPath");
             }
         }
 

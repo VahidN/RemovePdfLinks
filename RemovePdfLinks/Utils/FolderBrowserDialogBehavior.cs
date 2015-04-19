@@ -29,7 +29,11 @@ namespace RemovePdfLinks.Utils
 
         protected override void Invoke(object parameter)
         {
-            using (var folderBrowserDialog = new FolderBrowserDialog { ShowNewFolderButton = true })
+            using (var folderBrowserDialog = new FolderBrowserDialog
+            {
+                ShowNewFolderButton = true,
+                SelectedPath = System.Windows.Forms.Application.StartupPath
+            })
             {
                 if (!string.IsNullOrEmpty(FolderBrowserDescription))
                 {

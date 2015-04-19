@@ -6,7 +6,7 @@
         xmlns:utils="clr-namespace:RemovePdfLinks.Utils"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
-        Title="Remove Pdf Links" Height="215" Width="525">
+        Title="Remove Pdf Links" Height="242" Width="525">
     <Window.Resources>
         <viewModels:MainWindowViewModel x:Key="MainWindowViewModel" />
     </Window.Resources>
@@ -27,20 +27,40 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Folder Path:" Margin="2" Grid.Column="0"/>
-                            <TextBox Margin="2" Grid.Column="1"
-                                     Text="{Binding GuiModelData.FolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Button Width="20" x:Name="BtnChooseFolder"
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Input Folder Path:" Margin="2" Grid.Column="0" Grid.Row="0"/>
+                            <TextBox Margin="2" Grid.Column="1" Grid.Row="0"
+                                     Text="{Binding GuiModelData.InputFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Width="20" Grid.Row="0"
                                     ToolTip="Select ..." Content="..."  Margin="2" Grid.Column="2">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
                                         <utils:FolderBrowserDialogBehavior
                                             FolderBrowserDescription="Select a folder"
-                                            FolderBrowserDialogResultCommand="{Binding GuiModelData.FolderPath, Mode=TwoWay}"
+                                            FolderBrowserDialogResultCommand="{Binding GuiModelData.InputFolderPath, Mode=TwoWay}"
                                             />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Button>
+
+                            <TextBlock Text="Output Folder Path:" Margin="2" Grid.Column="0" Grid.Row="1"/>
+                            <TextBox Margin="2" Grid.Column="1" Grid.Row="1"
+                                     Text="{Binding GuiModelData.OutputFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Width="20" Grid.Row="1"
+                                    ToolTip="Select ..." Content="..."  Margin="2" Grid.Column="2">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <utils:FolderBrowserDialogBehavior
+                                            FolderBrowserDescription="Select a folder"
+                                            FolderBrowserDialogResultCommand="{Binding GuiModelData.OutputFolderPath, Mode=TwoWay}"
+                                            />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
                         </Grid>
                     </GroupBox>
 

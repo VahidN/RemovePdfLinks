@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using RemovePdfLinks.Core;
 using RemovePdfLinks.Models;
 using RemovePdfLinks.Utils;
@@ -19,19 +18,25 @@ namespace RemovePdfLinks.ViewModels
 
         private void processFiles()
         {
-            if(string.IsNullOrWhiteSpace(GuiModelData.FolderPath))
+            if (string.IsNullOrWhiteSpace(GuiModelData.InputFolderPath) ||
+                string.IsNullOrWhiteSpace(GuiModelData.OutputFolderPath))
+            {
                 return;
+            }
 
-            var pdfFiles = Directory.GetFiles(GuiModelData.FolderPath, "*.pdf");
+            if (!Directory.Exists(GuiModelData.OutputFolderPath))
+            {
+                Directory.CreateDirectory(GuiModelData.OutputFolderPath);
+            }
+
+            var pdfFiles = Directory.GetFiles(GuiModelData.InputFolderPath, "*.pdf");
             foreach (var file in pdfFiles)
             {
-                if(file.EndsWith("-mod.pdf", StringComparison.OrdinalIgnoreCase)) continue;
-
-                var newFileName = string.Format("{0}-mod.pdf", Path.GetFileNameWithoutExtension(file));
+                var newFileName = Path.GetFileName(file);
                 new ReplacePdfLinks
                 {
                     InputPdf = file,
-                    OutputPdf = Path.Combine(GuiModelData.FolderPath, newFileName),
+                    OutputPdf = Path.Combine(GuiModelData.OutputFolderPath, newFileName),
                     UriToNewUrl = uri =>
                     {
                         return GuiModelData.RemoveAllLinks ? string.Empty : GuiModelData.NewUrl;
